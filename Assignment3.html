@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>Rotating Square And Triamgle</title>
+
+
+<!-- vertex shader for the trianngle-->
+<script id="vertex-shader-still" type="x-shader/x-vertex">
+    #version 300 es
+    
+    in vec4 aPosition;
+
+    void
+    main()
+    {   
+        gl_Position.x = aPosition.x;
+        gl_Position.y = aPosition.y;
+        gl_Position.z = 0.0;
+        gl_Position.w = 1.0;
+    }
+</script>
+
+<!-- Vertex shader for the square that rotates-->
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+
+in vec4 aPosition;
+uniform float uTheta;  
+
+void
+main()
+{
+    
+    float s = sin(uTheta);
+    float c = cos(uTheta);
+
+    gl_Position.x = -s*aPosition.y + c*aPosition.x;
+    gl_Position.y =  s*aPosition.x + c*aPosition.y;
+    gl_Position.z = 0.0;
+    gl_Position.w = 1.0;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+precision mediump float;
+
+out vec4 fColor;
+
+void
+main()
+{
+    fColor = vec4(1.0, 0.0, 0.0, 1.0);
+}
+</script>
+
+<script id="fragment-shader-still" type="x-shader/x-fragment">
+    #version 300 es
+    precision mediump float;
+    
+    out vec4 fColor;
+    
+    void
+    main()
+    {
+        fColor = vec4(0.0, 1.0, 0.0, 1.0);
+    }
+    </script>
+
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MVnew.js"></script>
+<script type="text/javascript" src="Assignment3.js"></script>
+</head>
+
+<body>
+
+<!--button to change rotation direction-->
+<button id = "Direction">Change Rotation Direction</button>
+
+<!--slider to change speed of rotation-->
+<div>
+    Speed <input id = "slider" type = "range"
+    min = "0.0" max = "0.05" step = "0.01" value = 0.01>
+</div>
+
+<!--menu to change speed and direction-->
+<select id = "Controls" size = "2">
+    <option value = "0">Toggle Rotation Direction</option>
+    <option value = "1">Spin Faster</option>
+</select>
+
+<!--creates canvas-->
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+
+
+</body>
+</html>
